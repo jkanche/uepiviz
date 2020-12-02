@@ -1,23 +1,31 @@
-onmessage = function(evt) {
-    const canvas = evt.data.canvas;
-    const data = evt.data.data;
-    const options = evt.data.options;
-    
-    console.log("in worker, data", data);
+/**
+ * @author Jayaram Kancherla
+ * @email jayaram dot kancherla at gmail dot com
+ * @create date 2020-12-01 01:39:13
+ * @modify date 2020-12-01 01:39:13
+ */
 
-    // const ctx = canvas.getContext("2d");
+ onmessage = function (e) {
+  const canvas = e.data.canvas;
+  const data = e.data.data;
+  const options = e.data.options;
 
-    function render(time) {
-        // ctx.font = '48px serif';
-        // ctx.fillText('Hello world', 10, 50);  
-        importScripts("plugins/charts/GWASTrack.js");
+  console.log("in worker, data", data);
 
-        // TODO: totally unnecessary, implement own axes scale and tick methods
-        importScripts("https://d3js.org/d3.v6.js")
+  function render(time) {
+    importScripts("plugins/charts/GWASTrack.js");
 
-        var gwas = new GWASTrack(options, canvas);
-        gwas.render(data);
-    }
-      
-    requestAnimationFrame(render);
+    // TODO: totally unnecessary, implement own axes scale and tick methods
+    importScripts("https://d3js.org/d3.v6.js");
+
+    var track = new GWASTrack(options, canvas);
+    track.render(data);
+
+    postMessage({
+      type: "trackRendered", 
+      track: new ArrayBuffer(track)
+    });
+  }
+
+  requestAnimationFrame(render);
 };
