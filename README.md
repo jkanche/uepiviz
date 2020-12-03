@@ -27,4 +27,4 @@ python -m http.server 8899
 
 and then navigate to the page with the port you use
 
-the index.html file is inside the docs folder
+the index.html file is inside the docs folder, so the url to access would be `http://localhost:8899/docs/`
