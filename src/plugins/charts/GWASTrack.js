@@ -29,8 +29,12 @@ class GWASTrack {
     return;
   }
 
-  getRandom(min, max) {
+  getRandomRange(min, max) {
     return Math.random() * (max - min) + min;
+  }
+
+  getRandom(min, max) {
+    return Math.floor(Math.random() * Math.floor(max));
   }
 
   renderAxes() {
@@ -167,27 +171,32 @@ class GWASTrack {
     return self.yScale(j[self.options.axes.Y.field]);
   };
 
-  render(data) {
-    console.log(data);
+  generateData(n) {
+    // generate data the length of the domain
 
-    if (!data) {
-      console.log("data is empty");
-      // generate data the length of the domain
+    var dstart = this.options.axes.X.domain[0],
+      dend = this.options.axes.X.domain[1];
 
-      var dstart = this.options.axes.X.domain[0],
-        dend = this.options.axes.X.domain[1];
+    var data = [];
 
-      data = [];
-
-      for (var i = dstart; i < dend; i = i + 50) {
-        data.push({
-          start: i,
-          end: i + 1,
-          value: this.getRandom(40, 60),
-        });
-      }
+    for (var i = dstart; i < dend; i = i + n) {
+      data.push({
+        start: i,
+        end: i + 1,
+        value: this.getRandom(this.options.axes.Y.domain[0], this.options.axes.Y.domain[1]),
+      });
     }
+
+    return data;
+  }
+
+  render(n) {
     var self = this;
+
+    const t0 = performance.now();
+    var data = self.generateData(n);
+    const t1 = performance.now();
+    // console.log(`Call to generateData took ${t1 - t0} milliseconds.`);
 
     // TODO: move to options
     var colors = this.options.colors;
@@ -202,7 +211,7 @@ class GWASTrack {
 
     if (this.options.track.showLines) {
       // TODO: make smoothing a param
-      var line = d3.line().x(self.x.bind(self)).y(self.y.bind(self)).curve(d3.curveBasis);
+      var line = d3.line().x(self.x.bind(self)).y(self.y.bind(self)).curve(d3.curveBundle);
 
       ctx.globalAlpha = 0.8;
       ctx.beginPath();
