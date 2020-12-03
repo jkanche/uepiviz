@@ -1,0 +1,70 @@
+<!--
+@author Jayaram Kancherla
+@email jayaram dot kancherla at gmail dot com
+@create date 2020-12-01 01:39:52
+@modify date 2020-12-01 01:39:52
+-->
+
+<html>
+    <head>
+        <style>
+            .chart {
+                /* position: relative; */
+                /* display:flex;
+                flex-direction: column; */
+                display: grid;
+                grid-template-columns: 1fr;
+                grid-template-rows: 20px 1fr 20px 1fr 20px 1fr 20px 1fr;
+                width:100%;
+                height:100%;
+            }
+
+            .cposition {
+                position: relative;
+                /* display: block; */
+                /* justify-self: center; */
+            }
+        </style>
+    </head>
+    <body>
+        <div>
+            <h2> Tracks should render below, These tracks generate random data, 
+                but the context here is to explore rendering time, 
+                reactivity and responsiveness of the application when managing large data</h2>
+        </div>
+        <!-- <div> -->
+            <div class="chart">
+                <p>rendering 100 points w/ line</p>
+                <div class="cposition chart100l"></div>
+                <p>rendering 1000 points w/ line</p>
+                <div class="cposition chart1000l"></div>
+                <p>rendering 10000 points w/ line</p>
+                <div class="cposition chart10000l"></div>
+                <p>rendering 100000 points w/ line, nothing is probably visible at this point</p>
+                <div class="cposition chart100000l"></div>
+            </div>
+
+            <div class="chart">
+                <p>rendering 100 points</p>
+                <div class="cposition chart100"></div>
+                <p>rendering 1000 points</p>
+                <div class="cposition chart1000"></div>
+                <p>rendering 10000 points, nothing is probably visible at this point</p>
+                <div class="cposition chart10000"></div>
+                <p>rendering 100000 points, nothing is probably visible at this point</p>
+                <div class="cposition chart100000"></div>
+            </div>
+        <!-- </div> -->
+
+        <script src="https://d3js.org/d3.v6.js"></script>
+        <script src="../src/GenomeTrack.js"></script>
+        <script src="chart100.js"></script>
+        <script src="chart1000.js"></script>
+        <script src="chart10000.js"></script>
+        <script src="chart100000.js"></script>
+        <script src="chart100l.js"></script>
+        <script src="chart1000l.js"></script>
+        <script src="chart10000l.js"></script>
+        <script src="chart100000l.js"></script>
+    </body>
+</html>
