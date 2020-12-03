@@ -10,7 +10,7 @@
   const data = e.data.data;
   const options = e.data.options;
 
-  console.log("in worker, data", data);
+  // console.log("in worker, data", data);
 
   function render(time) {
     importScripts("plugins/charts/GWASTrack.js");

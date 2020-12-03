@@ -69,8 +69,12 @@ class GenomeTrack {
   // data and axes are rendered separately
   render(data) {
     var self = this;
-    console.log("in data");
-    var rWorker = new Worker("src/renderWorker.js");
+    // console.log("in data");
+    var rWorker = new Worker("/src/renderWorker.js");
+
+    if (!data) {
+      data = 1;
+    }
 
     rWorker.postMessage(
       {
@@ -90,7 +94,7 @@ class GenomeTrack {
     // };
 
     rWorker.addEventListener("message", function(e) {
-        console.log(e);
+        // console.log(e);
 
         if (e.data.type == "trackRendered") {
             self.track = e.data.track;
@@ -102,7 +106,7 @@ class GenomeTrack {
   // TODO: support drag and drop
   addCanvasEvents() {
     var self = this;
-    console.log("hmm I guess I should add interactions");
+    // console.log("hmm I guess I should add interactions");
 
     const margins = this.options.margins,
       height = this.options.height,
@@ -112,7 +116,7 @@ class GenomeTrack {
     // MouseOver
     var hctx = self.hoverCanvas.getContext("2d");
     self.hoverCanvas.addEventListener("mousemove", function (e) {
-      console.log("mouseout");
+      // console.log("mouseout");
 
       //   var rect = self.hoverCanvas.getBoundingClientRect();
 
@@ -147,61 +151,12 @@ class GenomeTrack {
 
       // highlight points in this region
         //   var region = 
-        console.log(self.track.items);
+        // console.log(self.track.items);
     });
 
     self.hoverCanvas.addEventListener("mouseout", function (e) {
-      console.log("mouseout");
+      // console.log("mouseout");
       hctx.clearRect(0, 0, self.hoverCanvas.width, self.hoverCanvas.height);
     });
   }
 }
-
-opts = {
-  height: 200,
-  width: 1000,
-  render: "canvas",
-
-  track: {
-    trackType: "GWAS",
-    showLines: true,
-    showPoints: true,
-    pointRadius: 1,
-    interpolation: "basis",
-  },
-
-  axes: {
-    X: {
-      show: true,
-      domain: [10000, 20000],
-      chrom: "chr12",
-      field: "start",
-    },
-    Y: {
-      show: true,
-      domain: [0, 100],
-      field: "value",
-    },
-  },
-
-  margins: {
-    left: 50,
-    right: 25,
-    top: 25,
-    bottom: 25,
-  },
-
-  colors: [
-    "blue",
-    "orange",
-    "green",
-    "red",
-    "yellow",
-    "cyan",
-    "purple",
-    "grey",
-  ],
-};
-
-var track = new GenomeTrack(opts, ".chart");
-track.render();
